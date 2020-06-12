@@ -28,14 +28,17 @@ public class Game {
     public GameState getState(){
         return  status;
     }
-    //rysowanie tablicy 4x4
+
+    /**Funkcja rysująca tablicę 4x4
+     */
     public void printArray() {
         for (int[] x: plansza) {
             System.out.format("%6d%6d%6d%6d%n", x[0], x[1], x[2], x[3]);
         }
         System.out.format("%n");
     }
-    //wypełnianie tablicy liczbami
+    /**Funkcja wypełniająca tablicę liczbami(dodaje liczbę 2 lub 4 po każdym wywołaniu
+     */
     public void dodajNumer() {
         if (czyPlanszaPelna()) {
             return;
@@ -60,10 +63,11 @@ public class Game {
         int Y = emptySpacesY.get(choice);
         plansza[X][Y] = newNumber;
     }
-    //przesuwanie liczb w gore:
+    /**Funkcja odpowiedzialna za przesuwanie liczb w górę
+     */
     public void wgore(){
         for (int y = 0; y < 4; y++){
-            boolean[] alreadyCombined = {false, false, false, false};
+            boolean[] alreadyCombined = {false, false, false, false};//do sprawdzania czy podczas ruchu nie zsumowały się już jakieś liczby
             for (int x = 1; x < 4; x++){
                 if (plansza[x][y] != 0){
                     int value = plansza[x][y];
@@ -71,23 +75,23 @@ public class Game {
                     while((X >= 0) && (plansza[X][y] == 0)){
                         X--;
                     }
-                    //liczba dojezdza do gory planszy:
+                    //Liczba dojeżdża do góry planszy
                     if (X == -1) {
                         plansza[0][y] = value;
                         plansza[x][y] = 0;
-                        //liczba napotyka po drodze zajete pole o innej wartosci, zostaje umieszczona pole ponizej napotkanego zajetego pola
+                        //liczba napotyka po drodze zajete pole o innej wartosci ostaje umieszczona pole ponizej napotkanego zajetego pola
                     }
                     else if (plansza[X][y] != value){
                         plansza[x][y] = 0;
                         plansza[X+1][y] = value;
                     }
-                    //lczba napotyka taka sama liczbe i zostaje podwojona, pole oryginalne zostaje ustawione na 0
+                    //liczba napotyka taka sama liczbe ale napotkana liczba została już podwojona w tym ruchu
                     else {
                         if (alreadyCombined[X]){
                             plansza[X+1][y] = value;
                             plansza[x][y] = 0;
                         }
-                        //2 liczby obok siebi
+                        //2 takie same liczby obok siebie, podwojenie liczby, która jest powyżej
                         else {
                             plansza[x][y] = 0;
                             plansza[X][y] *= 2;
@@ -100,7 +104,8 @@ public class Game {
             }
         }
     }
-    //przesuwanie liczb w dol
+    /**Funkcja odpowiedzialna za przesuwanie liczb w dół
+     */
     public void wdol(){
         for (int y = 0; y < 4; y++){
             boolean[] alreadyCombined = {false, false, false, false};
@@ -121,25 +126,27 @@ public class Game {
                         plansza[x][y] = 0;
                         plansza[X-1][y] = value;
                     }
-                    //lczba napotyka taka sama liczbe i zostaje podwojona, pole oryginalne zostaje ustawione na 0
+                    //liczba napotyka taka sama liczbe ale napotkana liczba została już podwojona w tym ruchu
                     else {
                         if (alreadyCombined[X]){
                             plansza[X-1][y] = value;
                             plansza[x][y] = 0;
                         }
+                        //2 takie same liczby obok siebie, podwojenie liczby, która jest poniżej
                         else {
                             plansza[x][y] = 0;
                             plansza[X][y] *= 2;
                             score += plansza[X][y];
                             alreadyCombined[X] = true;
-                            //gameBoard[x][y] = 0;
+
                         }
                     }
                 }
             }
         }
     }
-    //przesuwanie liczb w lewo
+    /**Funkcja odpowiedzialna za przesuwanie liczb w lewo
+     */
     public void wlewo(){
         for (int x = 0; x < 4; x++){
             boolean[] alreadyCombined = {false, false, false, false};
@@ -159,27 +166,29 @@ public class Game {
                     else if (plansza[x][Y] != value){
                         plansza[x][y] = 0;
                         plansza[x][Y+1] = value;
-                        //gameBoard[x][y] = 0;
+
                     }
-                    //lczba napotyka taka sama liczbe i zostaje podwojona, pole oryginalne zostaje ustawione na 0
+                    //liczba napotyka taka sama liczbe ale napotkana liczba została już podwojona w tym ruchu
                     else {
                         if (alreadyCombined[Y]){
                             plansza[x][Y+1] = value;
                             plansza[x][y] = 0;
                         }
+                        //2 takie same liczby obok siebie, podwojenie liczby, która jest lewej
                         else {
                             plansza[x][y] = 0;
                             plansza[x][Y] *= 2;
                             score += plansza[x][Y];
                             alreadyCombined[Y] = true;
-                            //gameBoard[x][y] = 0;
+
                         }
                     }
                 }
             }
         }
     }
-    //przesuwanie liczb w prawo
+    /**Funkcja odpowiedzialna za przesuwanie liczb w prawo
+     */
     public void wprawo(){
         for (int x = 0; x < 4; x++){
             boolean[] alreadyCombined = {false, false, false, false};
@@ -199,14 +208,15 @@ public class Game {
                     else if (plansza[x][Y] != value){
                         plansza[x][y] = 0;
                         plansza[x][Y-1] = value;
-                        //gameBoard[x][y] = 0;
+
                     }
-                    //lczba napotyka taka sama liczbe i zostaje podwojona, pole oryginalne zostaje ustawione na 0
+                    //liczba napotyka taka sama liczbe ale napotkana liczba została już podwojona w tym ruchu
                     else {
                         if (alreadyCombined[Y]){
                             plansza[x][y] = 0;
                             plansza[x][Y-1] = value;
                         }
+                        //2 takie same liczby obok siebie, podwojenie liczby, która jest po prawej
                         else {
                             plansza[x][y] = 0;
                             plansza[x][Y] *= 2;
@@ -218,8 +228,9 @@ public class Game {
             }
         }
     }
-    //metody sprawdzające sytuację na tablicy:
-    //zwraca true jeżeli jest liczba 2048
+    /**metody sprawdzające sytuację na tablicy:
+    */
+     //zwraca true jeżeli jest liczba 2048
     public boolean czy2048(){
         for (int x = 0; x<4; x++){
             for (int y = 0; y<4; y++){
@@ -267,7 +278,9 @@ public class Game {
         }
         return false;//gracz nie ma ruchów
     }
-    //fukcja sprawdzająca status gry (koniec, kontynuacja, zwyciestwo)
+
+    /**fukcja sprawdzająca status gry (koniec, kontynuacja, zwyciestwo)
+     */
     public  void stanGry(){
         if (czy2048()){
             status = GameState.WYGRANA;

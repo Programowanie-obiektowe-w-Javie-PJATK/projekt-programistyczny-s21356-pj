@@ -75,6 +75,9 @@ public class GUI {
         ramka.setVisible(true);
 
     }
+
+    /**Funkcja odpowiedzialna za przypisanie odpowiedniej grafiki do poszczególnych wartości pól
+     */
     private void loadNumberGrafs(){
         grafika = new Hashtable();
         ClassLoader cldr = this.getClass().getClassLoader();
@@ -104,6 +107,10 @@ public class GUI {
         grafika.put(2048, new ImageIcon((url2048)));
 
     }
+
+    /**Klasa opisująca planszę z przypisanymi do wartości pól liczbami
+     *
+     */
     class GameBoard extends JPanel{
         @Override protected void paintComponent(Graphics g){
             g.setColor(new Color(20, 20, 20));
@@ -125,7 +132,9 @@ public class GUI {
 
 
     }
-    //zakończenie gry
+
+    /**Klasa opisująca ramkę z napisem po wygraniu
+     */
     class Winning extends  JPanel{
         @Override
         protected void paintComponent(Graphics g){
@@ -139,6 +148,8 @@ public class GUI {
             g.drawString("Wciśnij ENTER aby zagrać ponownie", 25, 75);
         }
     }
+    /**Klasa opisująca ramkę z napisem po przegraniu
+     */
     class Loosing extends  JPanel{
         @Override
         protected void paintComponent(Graphics g){
@@ -152,7 +163,9 @@ public class GUI {
             g.drawString("Wciśnij ENTER aby zagrać ponownie", 25, 75);
         }
     }
-    //reakcja na wciśnięcie klawiszy
+
+    /**Klasa implementująca interfejs KeyListener, który umożliwia wykonanie czynności po wciśnięciu oodpowiedniego klawisza
+     */
     class MyFrame extends JFrame implements KeyListener{
         @Override
         public void keyPressed(KeyEvent e){}
@@ -216,7 +229,9 @@ public class GUI {
         @Override
         public void keyTyped(KeyEvent e){}
     }
-    //aktualizacja wyniku(wywołanie po każdym wciśnięciu klawisza)
+
+    /**metoda aktualizująca wynik(wywołanie po każdym wciśnięciu klawisza)
+     */
     public void wynikUpdate() {
         wynik.setText("Twój wynik: " + gra.getScore());
     }
